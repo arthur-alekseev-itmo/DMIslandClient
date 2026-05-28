@@ -1,6 +1,7 @@
 namespace DMIslandClient
 
 open System
+open DMIslandClient.Connection
 open DMIslandClient.Entity
 open DMIslandClient.UI
 open DMIslandClient.UI.Text
@@ -12,27 +13,42 @@ open OpenTK.Windowing.Common
 
 type Game () =
     let window = Window.Create(800, 600, "DM Island")
-    let world = World()
+    let mutable currentRoom: Room option = None
     let entities = EntityGroup()
     let camera = ElasticCamera(Camera())
     let ui = UISystem()
+    let sync = SynchroQueue()
+    
+    let controller = PlayerController(GameConnection("http://localhost:5229"))
+    
+    let updateRoom (data: Dto.GameStateResponse) =
+        let room = Room(data.ViewWidth, data.ViewWidth, MonadicBeach)
+        currentRoom <- Some room
     
     let load () =
+        controller.SubscribeToUpdate(printfn "%A")
+        controller.SubscribeToUpdate(fun event -> sync.AddEvent(fun () -> updateRoom event))
+        controller.SendInitial()
         camera.GetCamera().Zoom <- 5f
         ui.Load()
     
     let render () =
-        world.Render(camera.GetCamera())
+        currentRoom |> Option.iter _.Render(camera.GetCamera())
         entities.Render(camera.GetCamera())
         ui.Render()
     
     let fixedUpdate (_: float) =
         ()
         
-    let update (dt: float) =
-        let playerPos = entities.GetPlayer().Position.GetPosition()
-        camera.SetPosition(playerPos)
+    let trySnapToPlayer () =
+        match entities.GetPlayer() with
+        | Some player -> camera.SetPosition(player.Position.GetPosition())
+        | None -> ()
         
+    let update (dt: float) =
+        controller.Update()
+        trySnapToPlayer()
+        sync.ExecuteAll()
         entities.Update(float32 dt)
         camera.Update(float32 dt)
         ui.Update()

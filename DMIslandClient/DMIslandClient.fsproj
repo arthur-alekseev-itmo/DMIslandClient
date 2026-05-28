@@ -26,12 +26,16 @@
         <Compile Include="Utils\MathUtils.fs" />
         <Compile Include="UI\Text\Text.fs" />
         <Compile Include="UI\UISystem.fs" />
-        <Compile Include="World\World.fs" />
+        <Compile Include="World\RoomRenderer.fs" />
+        <Compile Include="World\Room.fs" />
         <Compile Include="Entity\EntityAnimation.fs" />
         <Compile Include="Entity\Entity.fs" />
         <Compile Include="Entity\EntityGroup.fs" />
         <Compile Include="Entity\ElasticCamera.fs" />
-        <Compile Include="Connection\WorldProvider.fs" />
+        <Compile Include="Connection\Dto.fs" />
+        <Compile Include="Connection\GameConnection.fs" />
+        <Compile Include="Connection\PlayerController.fs" />
+        <Compile Include="Connection\Synchro.fs" />
         <Compile Include="Game.fs" />
         <Compile Include="Program.fs"/>
     </ItemGroup>

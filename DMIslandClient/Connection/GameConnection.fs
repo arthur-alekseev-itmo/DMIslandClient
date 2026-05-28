@@ -1,0 +1,37 @@
+namespace DMIslandClient.Connection
+
+open System.Net.Http.Json
+open System.Text.Json
+open System.Threading.Tasks
+open DMIslandClient.Connection.Dto
+open System.Net.Http
+
+type GameConnection(serverUrl) =
+    let actionEndpoint = $"{serverUrl}/action"
+    
+    let sendRequest (req: PlayerActionRequest) = task {
+        use client = new HttpClient()
+        let content = JsonContent.Create(req)
+        let! response = client.PostAsync(actionEndpoint, content) |> Async.AwaitTask
+        return response
+    }
+    
+    let actionAndCallback (action: PlayerActionRequest) (callback: GameStateResponse -> unit) = task {
+        let! response = sendRequest action |> Async.AwaitTask
+        let! content = response.Content.ReadFromJsonAsync<GameStateResponse>() |> Async.AwaitTask
+        callback content
+    }
+    
+    member _.SendCallback(req: PlayerActionRequest, callback: GameStateResponse -> unit) = task {
+        let! response = sendRequest req |> Async.AwaitTask
+        let! content = response.Content.ReadFromJsonAsync<GameStateResponse>() |> Async.AwaitTask
+        callback content
+    }
+    
+    member _.MoveCallback(direction: string, callback: GameStateResponse -> unit) =
+        let action = { Action = "move"; Direction = Some direction }
+        actionAndCallback action callback |> Async.AwaitTask |> Async.RunSynchronously
+    
+    member _.SkibCallback(callback: GameStateResponse -> unit) =
+        let action = { Action = "skip"; Direction = None  }
+        actionAndCallback action callback |> Async.AwaitTask |> Async.RunSynchronously

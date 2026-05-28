@@ -1,13 +1,20 @@
 namespace DMIslandClient.World
 
-open System
 open DMIslandClient.Resources
 open DmIslandClient.Utils
 open LadaEngine.Engine.Base
+open LadaEngine.Engine.Common
 open LadaEngine.Engine.Common.SpriteGroup
 open LadaEngine.Engine.Renderables.GroupRendering
 
-type World () =
+type RoomType = MonadicBeach
+
+type IRoomRenderer =
+    abstract Render: Camera -> unit
+    abstract Update: unit -> unit
+    abstract AddTile: Pos -> unit
+    
+type MBRoomRenderer() =
     let textures = [| Resources.SAND; Resources.SANDSTONE |]
     let atlas = TextureAtlas(textures)
     let group = SpriteGroup(atlas)
@@ -18,12 +25,14 @@ type World () =
         sprite.Width <- 1f
         sprite.Height <- 1f
         group.AddSprite(sprite)
-    
-    let () =
-        let positions = Seq.init 100 (fun x -> Seq.init 100 (fun y -> Pos(x, y))) |> Seq.concat
-        Seq.iter addTile positions
-        group.Update()
         
-    member this.Render(camera) =
-        group.Render(camera)
+    interface IRoomRenderer with
+        member _.Render(camera) = group.Render(camera)
+        member _.AddTile(pos) = addTile pos
+        member _.Update() = group.Update()
+    
 
+module RoomRenderer =
+    let getFor(t: RoomType): IRoomRenderer =
+        match t with
+        | MonadicBeach -> MBRoomRenderer()
