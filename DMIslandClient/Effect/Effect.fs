@@ -20,9 +20,12 @@ type EffectParticle(scale, position: IAnimatablePos, sprite: Sprite) =
         sprite.Width <- size.GetValue()
         position.Update(dt)
         size.Update(dt)
+    
+    member public x.Finished() = size.GetValue() < 0.01f
 
 type Effect =
     abstract Update: float32 -> unit
+    abstract Finished: unit -> bool
 
 type ExplosionEffect(textures, scale, count, disperse, pos: Pos, atlas: TextureAtlas, group: SpriteGroup) =
      
@@ -42,7 +45,10 @@ type ExplosionEffect(textures, scale, count, disperse, pos: Pos, atlas: TextureA
      interface Effect with
          member x.Update(dt: float32) =
              Array.iter (fun (x: EffectParticle) -> x.Update(dt)) sprites
-         
+
+         member x.Finished() =
+             Array.forall (fun (x: EffectParticle) -> x.Finished()) sprites
+
 type DeathEffect(a, b, c) =
     inherit ExplosionEffect([Resources.Particle.SMOKE1; Resources.Particle.SMOKE2], 0.9f, 20, 5f, a, b, c)
     

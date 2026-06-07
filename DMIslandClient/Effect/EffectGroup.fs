@@ -38,6 +38,7 @@ type EffectGroup() =
     
     member x.Update(dt: float32) =
         effects |> Seq.iter _.Update(dt)
+        effects.RemoveAll(_.Finished()) |> ignore
         spriteGroup.Update()
     
     member x.Render(camera: Camera) =

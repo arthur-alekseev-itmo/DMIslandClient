@@ -53,4 +53,4 @@ type GameScene(connection: GameConnection, window: Window) =
             entities.Update(dt)
             effects.Update(dt)
             camera.Update(dt)
-            ui.Update()
+            ui.Update(dt)
