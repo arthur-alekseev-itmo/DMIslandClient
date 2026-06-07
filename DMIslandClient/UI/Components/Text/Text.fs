@@ -22,7 +22,7 @@ type Glyph(atlas: TextureAtlas, charData: CharDescription, pos: Pos, spriteGroup
 
 type Font(fontPrefix: string) =
     let charDescriptions = Dictionary<char, CharDescription>()
-    let usedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-+=<>/'\"\\!@#$%^&*()[]{} "
+    let usedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-+=<>.,:;/'\"\\!@#$%^&*()[]{} "
     
     let charToTexture x =
         $"{fontPrefix}{int x}.png"

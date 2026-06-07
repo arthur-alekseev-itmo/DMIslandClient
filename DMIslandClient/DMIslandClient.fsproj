@@ -23,13 +23,19 @@
         <Content Include="Resources\Textures\sand.png" />
         <Compile Include="Resources\Resources.fs" />
         <Content Include="Resources\Item\amethyst_shard.png" />
+        <Content Include="Resources\UI\island.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
         <Compile Include="Utils\GameRandom.fs" />
         <Compile Include="Utils\MathUtils.fs" />
         <Compile Include="Animation\IAnimatableT.fs" />
         <Compile Include="Animation\AnimatablePos.fs" />
         <Compile Include="Animation\AnimatableFloat.fs" />
-        <Compile Include="UI\Text\Text.fs" />
+        <Compile Include="UI\Components\Image.fs" />
+        <Compile Include="UI\Components\Text\Text.fs" />
+        <Compile Include="UI\Components\Button.fs" />
         <Compile Include="UI\UISystem.fs" />
+        <Compile Include="UI\MainMenuUI.fs" />
         <Compile Include="World\RoomRenderer.fs" />
         <Compile Include="World\Room.fs" />
         <Compile Include="Effect\Effect.fs" />
@@ -42,6 +48,8 @@
         <Compile Include="Connection\PlayerController.fs" />
         <Compile Include="Connection\Synchro.fs" />
         <Compile Include="EventDispatcher.fs" />
+        <Compile Include="Scenes\GameScene.fs" />
+        <Compile Include="Scenes\MainMenuScene.fs" />
         <Compile Include="Game.fs" />
         <Compile Include="Program.fs"/>
     </ItemGroup>

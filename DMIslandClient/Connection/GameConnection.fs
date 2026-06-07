@@ -1,5 +1,6 @@
 namespace DMIslandClient.Connection
 
+open System
 open System.Net.Http.Json
 open System.Text.Json
 open System.Threading.Tasks
@@ -39,3 +40,12 @@ type GameConnection(serverUrl) =
     member _.SkibCallback(callback: GameStateResponse -> unit) =
         let action = { Action = "skip"; Direction = None  }
         actionAndCallback action callback |> Async.AwaitTask |> Async.RunSynchronously
+    
+    member _.CheckAlive(callback: bool -> unit) =
+        let action = { Action = "ping"; Direction = None }
+        try
+            actionAndCallback action ignore |> Async.AwaitTask |> Async.RunSynchronously
+            callback true
+        with
+        | :? HttpRequestException -> callback false
+        | :? AggregateException -> callback false

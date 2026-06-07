@@ -22,3 +22,6 @@ module Resources =
     
     module Item =
         let AMETHYST_SHARD = "Resources/Item/amethyst_shard.png"
+    
+    module UI =
+        let ISLAND = "Resources/UI/island.png"
