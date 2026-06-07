@@ -15,7 +15,7 @@ type IRoomRenderer =
     abstract AddTile: Pos -> unit
     
 type MBRoomRenderer() =
-    let textures = [| Resources.SAND; Resources.SANDSTONE |]
+    let textures = [| Resources.Texture.SAND; Resources.Texture.SANDSTONE |]
     let atlas = TextureAtlas(textures)
     let group = SpriteGroup(atlas)
 

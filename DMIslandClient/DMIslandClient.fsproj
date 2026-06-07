@@ -22,13 +22,18 @@
     <ItemGroup>
         <Content Include="Resources\Textures\sand.png" />
         <Compile Include="Resources\Resources.fs" />
+        <Content Include="Resources\Item\amethyst_shard.png" />
         <Compile Include="Utils\GameRandom.fs" />
         <Compile Include="Utils\MathUtils.fs" />
+        <Compile Include="Animation\IAnimatableT.fs" />
+        <Compile Include="Animation\AnimatablePos.fs" />
+        <Compile Include="Animation\AnimatableFloat.fs" />
         <Compile Include="UI\Text\Text.fs" />
         <Compile Include="UI\UISystem.fs" />
         <Compile Include="World\RoomRenderer.fs" />
         <Compile Include="World\Room.fs" />
-        <Compile Include="Entity\EntityAnimation.fs" />
+        <Compile Include="Effect\Effect.fs" />
+        <Compile Include="Effect\EffectGroup.fs" />
         <Compile Include="Entity\Entity.fs" />
         <Compile Include="Entity\ElasticCamera.fs" />
         <Compile Include="Entity\EntityGroup.fs" />
@@ -36,6 +41,7 @@
         <Compile Include="Connection\GameConnection.fs" />
         <Compile Include="Connection\PlayerController.fs" />
         <Compile Include="Connection\Synchro.fs" />
+        <Compile Include="EventDispatcher.fs" />
         <Compile Include="Game.fs" />
         <Compile Include="Program.fs"/>
     </ItemGroup>

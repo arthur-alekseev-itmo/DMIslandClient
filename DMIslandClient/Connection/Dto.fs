@@ -5,6 +5,18 @@ open System.Collections.Generic
 open System.Text.Json.Serialization
 
 module Dto =
+    type EventType =
+        | EntityDeath = 0
+        | TearPop = 1
+
+    type EntityType =
+        | Player = 0
+        | ModusPonens = 1
+        | Lambda = 2
+        | Monad = 3
+        | Tear = 4
+        | Wall = 5
+
     [<CLIMutable>]
     type PlayerActionRequest = {
         [<JsonPropertyName("action")>]
@@ -61,8 +73,24 @@ module Dto =
         [<JsonPropertyName("position")>]
         Position: PositionDto
         
-        [<JsonPropertyName("relativePosition")>]
-        RelativePosition: PositionDto
+        [<JsonPropertyName("previous_position")>]
+        PreviousPosition: PositionDto
+    }
+    
+    [<CLIMutable>]
+    type EventDto = {
+        [<JsonPropertyName("type")>]
+        [<JsonConverter(typeof<JsonStringEnumConverter>)>]
+        Type: EventType
+        
+        [<JsonPropertyName("objects")>]
+        Objects: List<ObjectViewDto>
+        
+        [<JsonPropertyName("position")>]
+        Position: PositionDto
+        
+        [<JsonPropertyName("payload")>]
+        Payload: string
     }
 
     [<CLIMutable>]
@@ -81,4 +109,7 @@ module Dto =
         
         [<JsonPropertyName("viewHeight")>]
         ViewHeight: int
+        
+        [<JsonPropertyName("events")>]
+        Events: List<EventDto>
     }

@@ -54,7 +54,7 @@ type Text(content: string, origin: Pos) =
     let mutable scale = 1f
     let mutable text = content
     let mutable glyphs = ResizeArray()
-    let font = Font(Resources.FONT_QUICKSAND_PREFIX)
+    let font = Font(Resources.Font.FONT_QUICKSAND_PREFIX)
         
     let atlas = font.GetAtlas()
     let group = SpriteGroup(atlas)

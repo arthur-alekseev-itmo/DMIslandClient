@@ -11,17 +11,23 @@ type PlayerController(connection: GameConnection) =
     let getMoveDirection () =
         if Controls.ButtonPressedOnce(Keys.D) then Some "right"
         else if Controls.ButtonPressedOnce(Keys.A) then Some "left"
-        else if Controls.ButtonPressedOnce(Keys.W) then Some "up"
-        else if Controls.ButtonPressedOnce(Keys.S) then Some "down"
+        else if Controls.ButtonPressedOnce(Keys.S) then Some "up"
+        else if Controls.ButtonPressedOnce(Keys.W) then Some "down"
+        else None
+        
+    let getShootDirection () =
+        if Controls.ButtonPressedOnce(Keys.Right) then Some "right"
+        else if Controls.ButtonPressedOnce(Keys.Left) then Some "left"
+        else if Controls.ButtonPressedOnce(Keys.Down) then Some "up"
+        else if Controls.ButtonPressedOnce(Keys.Up) then Some "down"
         else None
         
     let notifyAll result =
         Seq.iter (fun x -> x result) subscriptions
         
     member _.Update() =
-        match getMoveDirection () with
-        | Some dir -> connection.MoveCallback(dir, notifyAll)
-        | None -> ()
+        getMoveDirection () |> Option.iter (fun dir -> connection.MoveCallback(dir, notifyAll))
+        getShootDirection () |> Option.iter (fun dir -> connection.ShootCallback(dir, notifyAll))
 
     member _.SubscribeToUpdate(callback: GameStateResponse -> unit) =
         subscriptions.Add(callback)

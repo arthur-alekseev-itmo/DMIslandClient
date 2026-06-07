@@ -32,6 +32,10 @@ type GameConnection(serverUrl) =
         let action = { Action = "move"; Direction = Some direction }
         actionAndCallback action callback |> Async.AwaitTask |> Async.RunSynchronously
     
+    member _.ShootCallback(direction: string, callback: GameStateResponse -> unit) =
+        let action = { Action = "attack"; Direction = Some direction }
+        actionAndCallback action callback |> Async.AwaitTask |> Async.RunSynchronously
+    
     member _.SkibCallback(callback: GameStateResponse -> unit) =
         let action = { Action = "skip"; Direction = None  }
         actionAndCallback action callback |> Async.AwaitTask |> Async.RunSynchronously
