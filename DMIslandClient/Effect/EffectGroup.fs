@@ -43,3 +43,13 @@ type EffectGroup() =
     
     member x.Render(camera: Camera) =
         spriteGroup.Render(camera)
+        
+        
+        
+module T =
+    let inline lerp c p t =
+        t * c + p * (LanguagePrimitives.GenericOne - c)
+
+    lerp 0.1f 0f 1f |> printfn "%A"
+    lerp 0.1f System.Numerics.Vector2.Zero System.Numerics.Vector2.One |> printfn "%A"
+    lerp 0.1f System.Numerics.Vector3.Zero System.Numerics.Vector3.One |> printfn "%A"

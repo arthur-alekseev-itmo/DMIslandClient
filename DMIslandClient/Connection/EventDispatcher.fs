@@ -4,9 +4,10 @@ open System
 open DMIslandClient.Connection.Dto
 open DMIslandClient.Effect
 open DMIslandClient.Entity
+open DMIslandClient.UI
 open LadaEngine.Engine.Base
 
-type EventDispatcher(entities: EntityGroup, effects: EffectGroup) =
+type EventDispatcher(entities: EntityGroup, effects: EffectGroup, ui: GameUI) =
     let entityTypeOfString = function
         | "Wall" -> EtWall
         | "Lambda" -> EtLambda
@@ -35,6 +36,7 @@ type EventDispatcher(entities: EntityGroup, effects: EffectGroup) =
     
     let processPlayer (player: PlayerViewDto) =
         let pos = posOfDto player.Position
+        ui.SetHealth(player.Hp)
         entities.CreateOrUpdatePlayer(player.Id, pos)
     
     member public x.ProcessUpdate(data: GameStateResponse) =

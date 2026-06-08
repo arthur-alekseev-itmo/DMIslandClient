@@ -16,11 +16,11 @@ type GameScene(connection: GameConnection, window: Window) =
     let entities = EntityGroup()
     let effects = EffectGroup()
     let camera = ElasticCamera(Camera())
-    let ui = UISystem()
+    let ui = GameUI()
     let sync = SynchroQueue()
 
     let controller = PlayerController(connection)
-    let dispatcher = EventDispatcher(entities, effects)
+    let dispatcher = EventDispatcher(entities, effects, ui)
             
     let trySnapToPlayer () =
         match entities.GetPlayer() with

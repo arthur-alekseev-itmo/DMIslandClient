@@ -25,3 +25,7 @@ module Resources =
     
     module UI =
         let ISLAND = "Resources/UI/island.png"
+        let HEART_CONTAINER = "Resources/UI/container.png"
+        let FULL_HEART = "Resources/UI/full.png"
+        let HALF_HEART = "Resources/UI/half.png"
+        

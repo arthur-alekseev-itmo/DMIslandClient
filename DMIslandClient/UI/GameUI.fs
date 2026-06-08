@@ -6,17 +6,20 @@ open LadaEngine.Engine.Base
 open LadaEngine.Engine.Common
 open LadaEngine.Engine.Global
 
-type UISystem () =
+type GameUI() =
     let uiCamera = Camera()
-    let fpsCounter = FpsCounter(Pos(0f, 0f))
+    let healthBar = HealthBar()
     let mutable frame = 0
     
+    member x.SetHealth(health) =
+        healthBar.UpdateHealth(health)
+    
     member x.Update(dt: float32) =
-        fpsCounter.Update(dt)
+        ()
     
     member x.Render() =
         frame <- frame + 1
-        fpsCounter.Render(uiCamera)
+        healthBar.Render(uiCamera)
     
     member x.Load() =
         ()
@@ -28,5 +31,5 @@ type UISystem () =
         let bottom = - float32 window.ClientSize.Y / float32 window.ClientSize.X
         let ratio = top / right
         let scaling = top
-        fpsCounter.Text().SetScale(0.1f * scaling)
-        fpsCounter.Text().SetPosition(Pos(left + 0.05f * scaling, top - ratio * 0.1f))
+        healthBar.SetScale(0.1f * scaling)
+        healthBar.SetPosition(Pos(left + 0.075f * scaling, top - ratio * 0.075f))
